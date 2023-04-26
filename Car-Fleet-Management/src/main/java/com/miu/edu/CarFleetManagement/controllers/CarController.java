@@ -52,10 +52,39 @@ public class CarController {
         }
     }
 
-//    @DeleteMapping("/{licensePlate}")
-//    public ResponseEntity<?> deleteCar(@PathVariable String licensePlate){
-//
-//    }
+    @DeleteMapping("/{licensePlate}")
+    public ResponseEntity<?> deleteCar(@PathVariable String licensePlate){
+        try {
+            carService.removeCar(licensePlate);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (Exception e) {
+            return new ResponseEntity<>(new CarError(e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+
+    @GetMapping("/search/{type}")
+    public ResponseEntity<CarDTOs> searchCarByType(@PathVariable String type) {
+        CarDTOs carDTOs = new CarDTOs(carService.searchCarByType(type));
+        return ResponseEntity.ok(carDTOs);
+    }
+
+    @GetMapping("/brand/{brand}")
+    public ResponseEntity<CarDTOs> searchCarByBrand(@PathVariable String brand) {
+        CarDTOs carDTOs = new CarDTOs(carService.searchCarByBrand(brand));
+        return ResponseEntity.ok(carDTOs);
+    }
+
+    @GetMapping("/price")
+    public ResponseEntity<CarDTOs> searchByPrice(@RequestParam double price, @RequestParam String operation) {
+
+                CarDTOs carDTOs = new CarDTOs(carService.searchByPrice(price, operation));
+                return ResponseEntity.ok(carDTOs);
+
+    }
+
+
 }
 
 

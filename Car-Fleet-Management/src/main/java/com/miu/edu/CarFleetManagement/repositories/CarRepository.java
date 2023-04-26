@@ -11,7 +11,7 @@ public interface CarRepository extends MongoRepository<Car, String> {
 
      List<Car> findByCarType(String type);
      List<Car> findByBrand(String brand);
-     List<Car> findByPriceEquals(double price);
+     List<Car> findByPrice(double price);
      List<Car> findByPriceLessThan(double price);
      List<Car> findByPriceGreaterThan(double price);
 
