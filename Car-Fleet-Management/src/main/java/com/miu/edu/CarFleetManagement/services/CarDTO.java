@@ -8,14 +8,27 @@ public class CarDTO {
     private String carType;
     private double price;
 
+    private boolean rented;
+
+
+
     public CarDTO() {
     }
 
-    public CarDTO(String licensePlate, String brand, String carType, double price) {
+    public CarDTO(String licensePlate, String brand, String carType, double price, boolean rented) {
         this.licensePlate = licensePlate;
         this.brand = brand;
         this.carType = carType;
         this.price = price;
+        this.rented = rented;
+    }
+
+    public boolean isRented() {
+        return rented;
+    }
+
+    public void setRented(boolean rented) {
+        this.rented = rented;
     }
 
     public String getLicensePlate() {

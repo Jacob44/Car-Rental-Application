@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 
 @SpringBootApplication
-public class CarFleetManagementApplication implements CommandLineRunner {
+public class CarFleetManagementApplication {
 
 	@Autowired
 	CarController carController;
@@ -21,15 +21,4 @@ public class CarFleetManagementApplication implements CommandLineRunner {
 		SpringApplication.run(CarFleetManagementApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-
-		dropDatabase();
-		carController.addCar();
-		System.out.println(carController.getQuantity("Toyota", "Prius"));
-	}
-
-	public void dropDatabase() {
-		mongoTemplate.getDb().drop();
-	}
 }

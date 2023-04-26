@@ -1,16 +1,23 @@
 package com.miu.edu.CarFleetManagement.domains;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Car {
 
 
+    @Indexed(unique = true)
+    @Id
     private String licensePlate;
     private String brand;
     private String carType;
+
+    private boolean isAvailable;
     private double price;
+
+
 
     public Car() {
     }
@@ -20,6 +27,15 @@ public class Car {
         this.brand = brand;
         this.carType = carType;
         this.price = price;
+        isAvailable = true;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
     public String getLicensePlate() {

@@ -1,5 +1,6 @@
 package com.miu.edu.CarFleetManagement.services;
 
+import com.miu.edu.CarFleetManagement.Errors.CarException;
 import com.miu.edu.CarFleetManagement.domains.Car;
 import com.miu.edu.CarFleetManagement.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,11 @@ public class CarService {
         return carRepository.countByBrandAndCarType(brand, carType);
     }
 
+    public List<CarDTO> getAllCars(){
+        List<Car> cars = carRepository.findAll();
+        return CarAdapter.carListToCarDToList(cars);
+    }
+
     public CarDTO addCar(CarDTO carDTO) {
 
         Car car = CarAdapter.carDToToCar(carDTO);
@@ -31,12 +37,23 @@ public class CarService {
         carRepository.delete(car);
     }
 
-    public CarDTO updateCar(String licensePlate, double price) {
-        Car car = carRepository.findByLicensePlate(licensePlate);
-        car.setPrice(price);
-        carRepository.save(car);
-        return CarAdapter.carToCarDTO(car);
-    }
+
+
+        public CarDTO updateCar(String licensePlate, CarDTO carDTO) throws CarException {
+            Car car = carRepository.findByLicensePlate(licensePlate);
+            if (car != null) {
+                car.setPrice(carDTO.getPrice());
+                car.setCarType(carDTO.getCarType());
+                car.setBrand(carDTO.getBrand());
+                carRepository.save(car);
+                return CarAdapter.carToCarDTO(car);
+            } else {
+                // Handle case when car with given licensePlate is not found
+                throw new CarException("Car not found with licensePlate: " + licensePlate);
+            }
+        }
+
+
 
     public CarDTO getCarByLicensePlate(String licensePlate) {
         Car car = carRepository.findByLicensePlate(licensePlate);
@@ -56,15 +73,15 @@ public class CarService {
     public List<CarDTO> searchByPrice(double price, String operation) {
 
         switch (operation) {
-            case "equal": {
+            case "equal" -> {
                 List<Car> carList = carRepository.findByPriceEquals(price);
                 return CarAdapter.carListToCarDToList(carList);
             }
-            case "less": {
+            case "less" -> {
                 List<Car> carList = carRepository.findByPriceGreaterThan(price);
                 return CarAdapter.carListToCarDToList(carList);
             }
-            case "greater": {
+            case "greater" -> {
                 List<Car> carList = carRepository.findByPriceLessThan(price);
                 return CarAdapter.carListToCarDToList(carList);
             }

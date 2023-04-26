@@ -8,7 +8,7 @@ import java.util.List;
 public class CarAdapter {
 
     public static CarDTO carToCarDTO(Car car){
-        return new CarDTO(car.getLicensePlate(), car.getBrand(), car.getCarType(), car.getPrice());
+        return new CarDTO(car.getLicensePlate(), car.getBrand(), car.getCarType(), car.getPrice(), car.isAvailable());
     }
 
     public static Car carDToToCar(CarDTO carDTO){
